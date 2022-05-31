@@ -48,7 +48,21 @@ public class CalculatorService {
         return rnp;
     }
 
-    public double calculate(String expression) {
+    public boolean expressionValidation(String orginialExpression) {
+        if (orginialExpression.isEmpty()) return false;
+        Pattern pattern = Pattern.compile("[0-9]+");
+        Pattern pattern2 = Pattern.compile("[-+*/]+");
+        Matcher matcher = pattern.matcher(orginialExpression);
+        Matcher matcher2 = pattern2.matcher(orginialExpression);
+        if (!matcher.find()) return false;//нет чисел
+        if (!matcher2.find()) return false;//нет знаков
+        return true;
+    }
+
+    public double calculate(String expression) throws NumberFormatException {
+        if (!expressionValidation(expression.trim())) {
+            return Double.parseDouble(expression);
+        }
         String rnpExpression = generateRNP(expression);
         Stack<Character> operations = new Stack<>();
         Stack<String> numbers = new Stack<>();
@@ -78,12 +92,16 @@ public class CalculatorService {
                 } else if (operation == '-') {
                     numbers.push(Double.toString(left - right));
                 } else if (operation == '/') {
+                    if (right == 0 || right == 0.0) {
+                        throw new IllegalArgumentException("diving by zero");
+                    }
                     numbers.push(Double.toString(left / right));
                 } else if (operation == '*') {
                     numbers.push(Double.toString(left * right));
                 }
             }
         }
+
         return Double.parseDouble(numbers.peek());
     }
 }
