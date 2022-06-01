@@ -1,6 +1,7 @@
 package com.rrpvm.calculator.controller;
 
 import com.rrpvm.calculator.service.CalculatorService;
+import com.rrpvm.calculator.service.LoggerService;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -8,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXML;
 
 public class MainController {
+    private CalculatorService calculatorService = CalculatorService.getInstance();
     @FXML
     private TextField expressionArea;
 
@@ -30,20 +32,20 @@ public class MainController {
 
     @FXML
     private void onCalculateClicked(MouseEvent mouseEvent) {
-        if (this.expressionArea.getText().isEmpty()) {
-            //throw new exception
-            return;
-        }
-        CalculatorService calculatorService = CalculatorService.getInstance();
         try {
             double result = calculatorService.calculate(this.expressionArea.getText());
+            synchronized (LoggerService.getInstance()) {
+                LoggerService.getInstance().notify();
+                LoggerService.getInstance().setExpression(this.expressionArea.getText());
+                LoggerService.getInstance().setResult(result);
+            }
             this.expressionArea.setText(Double.toString(result));
-        } catch (NumberFormatException n) {
-            n.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } finally {
-            //this.expressionArea.setText("something goes wrong");
+        } catch (IllegalArgumentException exception) {
+            // this.expressionArea.setText();
+            // exception.printStackTrace();
+            //вообще - подстветить поле, что нужно еще что-то
+        } catch (ArithmeticException e) {
+            this.expressionArea.setText("dividing by zero");
         }
     }
 }

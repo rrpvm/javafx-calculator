@@ -1,5 +1,6 @@
 package com.rrpvm.tests;
 
+import com.rrpvm.calculator.pojo.RPNParser;
 import com.rrpvm.calculator.service.CalculatorService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -18,18 +19,19 @@ public class JUnitTest {
 
     @Test
     public void validTest() {
-        CalculatorService calculatorService = CalculatorService.getInstance();
-        Assert.assertNotEquals(calculatorService.expressionValidation("-"), true);
-        Assert.assertNotEquals(calculatorService.expressionValidation("+"), true);
-        Assert.assertNotEquals(calculatorService.expressionValidation("*"), true);
-        Assert.assertNotEquals(calculatorService.expressionValidation("/"), true);
-        Assert.assertNotEquals(calculatorService.expressionValidation(""), true);
-        Assert.assertNotEquals(calculatorService.expressionValidation(" "), true);
-        Assert.assertNotEquals(calculatorService.expressionValidation("    "), true);
+        RPNParser parser = new RPNParser();
+        Assert.assertNotEquals(parser.expressionValidation("-"), true);
+        Assert.assertNotEquals(parser.expressionValidation("+"), true);
+        Assert.assertNotEquals(parser.expressionValidation("*"), true);
+        Assert.assertNotEquals(parser.expressionValidation("/"), true);
+        Assert.assertNotEquals(parser.expressionValidation(""), true);
+        Assert.assertNotEquals(parser.expressionValidation(" "), true);
+        Assert.assertNotEquals(parser.expressionValidation("    "), true);
     }
     @Test(expectedExceptions = NumberFormatException.class)
-    public void parsingExceptionTest(){
+    public void parsingExceptionTest() {
         CalculatorService calculatorService = CalculatorService.getInstance();
         calculatorService.calculate("432fgdgfdg+31");
+        calculatorService.calculate("-");
     }
 }
