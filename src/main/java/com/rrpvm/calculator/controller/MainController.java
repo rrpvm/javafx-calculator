@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 
 public class MainController {
     private CalculatorService calculatorService = CalculatorService.getInstance();
+    private LoggerService loggerService = LoggerService.getInstance();
     @FXML
     private TextField expressionArea;
 
@@ -34,10 +35,10 @@ public class MainController {
     private void onCalculateClicked(MouseEvent mouseEvent) {
         try {
             double result = calculatorService.calculate(this.expressionArea.getText());
-            synchronized (LoggerService.getInstance()) {
-                LoggerService.getInstance().notify();
-                LoggerService.getInstance().setExpression(this.expressionArea.getText());
-                LoggerService.getInstance().setResult(result);
+            synchronized (loggerService) {
+                loggerService.notify();
+                loggerService.setExpression(this.expressionArea.getText());
+                loggerService.setResult(result);
             }
             this.expressionArea.setText(Double.toString(result));
         } catch (IllegalArgumentException exception) {
@@ -45,6 +46,11 @@ public class MainController {
             // exception.printStackTrace();
             //вообще - подстветить поле, что нужно еще что-то
         } catch (ArithmeticException e) {
+            synchronized (loggerService) {
+                loggerService.notify();
+                loggerService.setExpression(this.expressionArea.getText());
+                loggerService.setResult(Double.POSITIVE_INFINITY);
+            }
             this.expressionArea.setText("dividing by zero");
         }
     }

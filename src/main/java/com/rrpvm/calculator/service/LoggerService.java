@@ -19,6 +19,7 @@ public class LoggerService extends Thread {
     @Override
     public void run() {
         super.run();
+        System.out.println("logger service is running...");
         logger.setup();
         while (bAlive) {
             try {
@@ -34,12 +35,11 @@ public class LoggerService extends Thread {
             }
         }
         logger.release();
-        System.out.println("released");
+        System.out.println("logger service is released");
     }
 
     public synchronized void setExpression(String expression) {
         this.expression = expression;
-
     }
 
     public synchronized void setResult(Double result) {

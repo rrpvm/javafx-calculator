@@ -14,6 +14,7 @@ public class FxCalculator extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(FxCalculator.class.getResource("calculus.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 640, 480);
+        stage.setResizable(false);
         stage.setTitle("calculator");
         stage.setScene(scene);
         stage.show();
@@ -23,9 +24,10 @@ public class FxCalculator extends Application {
     @Override
     public void stop() throws Exception {
         super.stop();
-        synchronized (LoggerService.getInstance()) {
-            LoggerService.getInstance().notify();
-            LoggerService.getInstance().shutdown();
+        LoggerService loggerService = LoggerService.getInstance();
+        synchronized (loggerService) {
+            loggerService.notify();
+            loggerService.shutdown();
         }
     }
 

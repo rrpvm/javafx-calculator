@@ -3,6 +3,7 @@ package com.rrpvm.calculator.model;
 import java.util.Date;
 
 /*'https://api.ipify.org?format=json'*/
+@Deprecated
 public class RequestLog {
     private String exprission;
     private String ip;

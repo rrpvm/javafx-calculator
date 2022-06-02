@@ -35,6 +35,10 @@ public class MathCalculator {
                 result = a / b;
                 break;
             }
+            case '^': {
+                result = Math.pow(a, b);
+                break;
+            }
             default: {
                 break;
             }
@@ -62,7 +66,7 @@ public class MathCalculator {
                     tmp = "";
                 }
             }
-            if (priority >= 1) {
+            if (priority >= MathOperandPriority.PLUS_MINUS.getPriority()) {
                 operations.push(currentChar);
             }
             if (!operations.isEmpty()) {

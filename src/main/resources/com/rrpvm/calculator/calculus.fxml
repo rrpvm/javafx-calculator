@@ -57,7 +57,7 @@
                         <Font size="24.0"/>
                     </font>
                 </Button>
-                <Button text="√" onAction="#onInput" prefHeight="60.0" prefWidth="300.0" mnemonicParsing="false"
+                <Button text="√" prefHeight="60.0" prefWidth="300.0" mnemonicParsing="false"
                         GridPane.columnIndex="4">
                     <font>
                         <Font size="24.0"/>
@@ -75,13 +75,13 @@
                         <Font size="24.0"/>
                     </font>
                 </Button>
-                <Button text="9" mnemonicParsing="false" onAction="#onInput" prefHeight="60.0" prefWidth="300.0"
+                <Button text="9" onAction="#onInput" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0"
                         GridPane.columnIndex="2" GridPane.rowIndex="1">
                     <font>
                         <Font size="24.0"/>
                     </font>
                 </Button>
-                <Button text="/" mnemonicParsing="false" onAction="#onInput" prefHeight="60.0" prefWidth="300.0"
+                <Button text="/" onAction="#onInput" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0"
                         GridPane.columnIndex="3" GridPane.rowIndex="1">
                     <font>
                         <Font size="24.0"/>
@@ -150,7 +150,8 @@
                         <Font size="24.0"/>
                     </font>
                 </Button>
-                <Button text="^" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0" GridPane.columnIndex="4"
+                <Button text="^" onAction="#onInput" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0"
+                        GridPane.columnIndex="4"
                         GridPane.rowIndex="3">
                     <font>
                         <Font size="24.0"/>

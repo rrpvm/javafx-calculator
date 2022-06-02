@@ -1,7 +1,7 @@
 package com.rrpvm.calculator.model;
 
 public enum MathOperandPriority {
-    NUMBER(0), PLUS_MINUS(1), MULTIPLY_DIVIDE(2);
+    NUMBER(0), PLUS_MINUS(1), MULTIPLY_DIVIDE(2), POW_OPERAND(3);
     private int priority;
 
     public int getPriority() {
