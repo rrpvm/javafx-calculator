@@ -1,19 +1,26 @@
 package com.rrpvm.calculator.service;
 
+import com.rrpvm.calculator.model.RequestLog;
 import com.rrpvm.calculator.pojo.DataBaseLogger;
 import com.rrpvm.calculator.pojo.di.interfaces.ILogger;
+import javafx.util.Pair;
+
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class LoggerService extends Thread {
     private static LoggerService instance;
+
     private ILogger logger;
-    private boolean bAlive;
-    private String expression;
-    private Double result;
+    private LinkedBlockingQueue<RequestLog> logQueue;
+    private volatile boolean bAlive;
 
     private LoggerService() {
         logger = new DataBaseLogger();
+        logQueue = new LinkedBlockingQueue<>();
         bAlive = true;
-        expression = "";
+
     }
 
     @Override
@@ -24,26 +31,27 @@ public class LoggerService extends Thread {
         while (bAlive) {
             try {
                 synchronized (this) {
-                    wait();
-                    if (!bAlive) break;
+                    if (this.logQueue.isEmpty()) {
+                        wait();//sleep until
+                        if (!bAlive) break;
+                    }
                 }
-                logger.log(expression,result);
-                expression = null;
-                result = 0.0;
+                RequestLog log = this.logQueue.take();//sync method
+                new Thread(() -> logger.log(log)).start();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
         logger.release();
-        System.out.println("logger service is released");
+        System.out.println("logger service is released\t" + Thread.currentThread().getName());
     }
 
-    public synchronized void setExpression(String expression) {
-        this.expression = expression;
-    }
-
-    public synchronized void setResult(Double result) {
-        this.result = result;
+    public void addLogQueue(RequestLog log) {
+        try {
+            this.logQueue.put(log);//sync method
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static LoggerService getInstance() {
@@ -53,7 +61,7 @@ public class LoggerService extends Thread {
         return instance;
     }
 
-    public void shutdown() {
+    public synchronized void shutdown() {
         this.bAlive = false;
     }
 }

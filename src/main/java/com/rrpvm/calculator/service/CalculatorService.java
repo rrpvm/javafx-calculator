@@ -21,4 +21,9 @@ public class CalculatorService {
     public double calculate(String expression) throws IllegalArgumentException, ArithmeticException {
         return this.calculator.calculate(expression);
     }
+
+    public double singleOperationCalculate(String input, String operation) throws ArithmeticException {
+        if (input.isEmpty()) throw new IllegalArgumentException("input is null");
+        return this.calculator.singleOperand(Double.parseDouble(input.trim()), operation);
+    }
 }

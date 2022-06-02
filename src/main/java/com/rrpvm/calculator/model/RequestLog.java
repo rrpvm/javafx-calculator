@@ -1,17 +1,15 @@
 package com.rrpvm.calculator.model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
-/*'https://api.ipify.org?format=json'*/
-@Deprecated
 public class RequestLog {
     private String exprission;
-    private String ip;
-    private Date time;
+    private double result;
+    private Timestamp time;
 
-    public RequestLog(String exprission, String ip, Date time) {
+    public RequestLog(String exprission, double result, Timestamp time) {
         this.exprission = exprission;
-        this.ip = ip;
+        this.result = result;
         this.time = time;
     }
 
@@ -19,11 +17,11 @@ public class RequestLog {
         return exprission;
     }
 
-    public String getIp() {
-        return ip;
+    public double getResult() {
+        return result;
     }
 
-    public Date getTime() {
+    public Timestamp getTime() {
         return time;
     }
 }

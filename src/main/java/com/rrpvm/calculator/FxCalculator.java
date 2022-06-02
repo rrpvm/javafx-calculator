@@ -7,6 +7,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class FxCalculator extends Application {
 
@@ -18,7 +21,13 @@ public class FxCalculator extends Application {
         stage.setTitle("calculator");
         stage.setScene(scene);
         stage.show();
-        new Thread(LoggerService.getInstance()).start();
+
+        for (int i = 0; i < 2; i++) {
+            Thread thread = new Thread(LoggerService.getInstance());
+            thread.setPriority(Thread.MIN_PRIORITY);
+            thread.setDaemon(true);
+            thread.start();
+        }
     }
 
     @Override
@@ -26,7 +35,7 @@ public class FxCalculator extends Application {
         super.stop();
         LoggerService loggerService = LoggerService.getInstance();
         synchronized (loggerService) {
-            loggerService.notify();
+            loggerService.notifyAll();
             loggerService.shutdown();
         }
     }
@@ -34,6 +43,4 @@ public class FxCalculator extends Application {
     public static void main(String[] args) {
         launch();
     }
-
-
 }

@@ -1,13 +1,15 @@
 package com.rrpvm.calculator.pojo;
 
+import com.rrpvm.calculator.model.RequestLog;
 import com.rrpvm.calculator.pojo.di.interfaces.ILogger;
 
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.sql.*;
-import java.time.Instant;
 import java.util.Scanner;
 
 /* statement.execute("create table logs\n" +
@@ -40,19 +42,23 @@ public class DataBaseLogger implements ILogger {
     }
 
     @Override
-    public void log(String expression, Double result) {
+    public void log(RequestLog log) {
         if (this.connection == null) return;
         try {
-            String jsonResponse = getIpAddress();
-            jsonResponse = jsonResponse.substring(7, jsonResponse.length() - 2);//get ip line
+            String jsonResponse = null;
+            try {
+                jsonResponse = getIpAddress();
+                jsonResponse = jsonResponse.substring(7, jsonResponse.length() - 2);//get ip line
+            } catch (UnknownHostException unknownHostException) {
+                jsonResponse = "localhost";
+            }
             PreparedStatement statement = this.connection.prepareStatement("INSERT INTO public.logs(expression, result, date, client_ip)VALUES (?,?,?,?)");
-            statement.setString(1, expression);
-            statement.setDouble(2, result);
-            statement.setTimestamp(3, new Timestamp(java.util.Date.from(Instant.now()).getTime()));
+            statement.setString(1, log.getExprission());
+            statement.setDouble(2, log.getResult());
+            statement.setTimestamp(3, log.getTime());
             statement.setString(4, jsonResponse);
             statement.execute();
             statement.close();
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -69,7 +75,7 @@ public class DataBaseLogger implements ILogger {
         }
     }
 
-    private String getIpAddress() {
+    private String getIpAddress() throws UnknownHostException {
         URL url = null;
         HttpURLConnection connection = null;
         Scanner scanner = null;
@@ -78,12 +84,18 @@ public class DataBaseLogger implements ILogger {
             connection = (HttpURLConnection) url.openConnection();
             scanner = new Scanner(connection.getInputStream());
             if (scanner.hasNextLine()) return scanner.nextLine();
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (UnknownHostException u) {
+            throw u;
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            scanner.close();
-            connection.disconnect();
+            if (scanner != null)
+                scanner.close();
+            if (connection != null)
+                connection.disconnect();
         }
-        return "localhost";
+        return null;
     }
 }

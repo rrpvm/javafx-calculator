@@ -57,7 +57,7 @@
                         <Font size="24.0"/>
                     </font>
                 </Button>
-                <Button text="√" prefHeight="60.0" prefWidth="300.0" mnemonicParsing="false"
+                <Button text="√" onAction="#singleCalculation" prefHeight="60.0" prefWidth="300.0" mnemonicParsing="false"
                         GridPane.columnIndex="4">
                     <font>
                         <Font size="24.0"/>
@@ -120,7 +120,7 @@
                         <Insets/>
                     </opaqueInsets>
                 </Button>
-                <Button text="1/x" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0" GridPane.columnIndex="4"
+                <Button onAction="#singleCalculation" text="1/x" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0" GridPane.columnIndex="4"
                         GridPane.rowIndex="2">
                     <font>
                         <Font size="24.0"/>

@@ -46,6 +46,19 @@ public class MathCalculator {
         return result;
     }
 
+    public double singleOperand(double value, String operation) throws ArithmeticException {
+        if (operation.equals("1/x")) {
+            if (value == 0) {
+                throw new ArithmeticException("dividing by zero");
+            }
+            return 1.0 / value;
+        } else if (operation.equals("√")) {
+            if (value > 0) return Math.sqrt(value);
+            throw new ArithmeticException("negative root");
+        }
+        return value;
+    }
+
     public double calculate(String expression) throws ArithmeticException, IllegalArgumentException {
         expression = expression.trim();
         if (!parser.expressionValidation(expression)) {

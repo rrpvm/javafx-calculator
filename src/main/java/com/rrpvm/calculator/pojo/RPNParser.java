@@ -13,7 +13,11 @@ public class RPNParser {
         Pattern pattern2 = Pattern.compile("[-+*/^]+");
         Matcher matcher = pattern.matcher(originalExpression);
         Matcher matcher2 = pattern2.matcher(originalExpression);
-        if (!matcher.find()) return false;//нет чисел
+        int count = 0;
+        while (matcher.find()) {
+            count++;
+        }
+        if (count < 2) return false;//нет 2x чисел
         if (!matcher2.find()) return false;//нет знаков
         return true;
     }
