@@ -22,12 +22,16 @@ public class FxCalculator extends Application {
         stage.setScene(scene);
         stage.show();
 
-        for (int i = 0; i < 2; i++) {
+       /* for (int i = 0; i < 2; i++) { нам попросту не нужно 2 потока записи(хотя так быстрее)
             Thread thread = new Thread(LoggerService.getInstance());
             thread.setPriority(Thread.MIN_PRIORITY);
             thread.setDaemon(true);
             thread.start();
-        }
+        }*/
+        Thread thread = new Thread(LoggerService.getInstance());
+        thread.setPriority(Thread.MIN_PRIORITY);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     @Override

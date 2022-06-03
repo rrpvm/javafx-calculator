@@ -39,7 +39,7 @@
                         <Font name="Calibri" size="24.0"/>
                     </font>
                 </Button>
-                <Button text="CE" onMouseClicked="#onErase" prefHeight="60.0" prefWidth="300.0" GridPane.columnIndex="1"
+                <Button text="CE" onMouseClicked="#onClear" prefHeight="60.0" prefWidth="300.0" GridPane.columnIndex="1"
                         mnemonicParsing="false">
                     <font>
                         <Font size="24.0"/>
@@ -51,7 +51,7 @@
                         <Font size="24.0"/>
                     </font>
                 </Button>
-                <Button text="±" onAction="#onClear" prefHeight="60.0" prefWidth="300.0" GridPane.columnIndex="3"
+                <Button text="±" onMouseClicked="#negateValue" prefHeight="60.0" prefWidth="300.0" GridPane.columnIndex="3"
                         mnemonicParsing="false">
                     <font>
                         <Font size="24.0"/>

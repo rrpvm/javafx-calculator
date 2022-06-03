@@ -2,25 +2,28 @@ package com.rrpvm.calculator.service;
 
 import com.rrpvm.calculator.model.RequestLog;
 import com.rrpvm.calculator.pojo.DataBaseLogger;
+import com.rrpvm.calculator.pojo.PostgresDataBaseConnector;
 import com.rrpvm.calculator.pojo.di.interfaces.ILogger;
-import javafx.util.Pair;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class LoggerService extends Thread {
     private static LoggerService instance;
-
     private ILogger logger;
     private LinkedBlockingQueue<RequestLog> logQueue;
     private volatile boolean bAlive;
 
+    public static LoggerService getInstance() {
+        if (instance == null) {
+            instance = new LoggerService();
+        }
+        return instance;
+    }
+
     private LoggerService() {
-        logger = new DataBaseLogger();
+        logger = new DataBaseLogger(new PostgresDataBaseConnector(), new IpResolverService());
         logQueue = new LinkedBlockingQueue<>();
         bAlive = true;
-
     }
 
     @Override
@@ -52,13 +55,6 @@ public class LoggerService extends Thread {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static LoggerService getInstance() {
-        if (instance == null) {
-            instance = new LoggerService();
-        }
-        return instance;
     }
 
     public synchronized void shutdown() {

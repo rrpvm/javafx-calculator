@@ -3,21 +3,21 @@ package com.rrpvm.calculator.model;
 import java.sql.Timestamp;
 
 public class RequestLog {
-    private String exprission;
-    private double result;
+    private String expression;
+    private String result;
     private Timestamp time;
 
-    public RequestLog(String exprission, double result, Timestamp time) {
-        this.exprission = exprission;
+    public RequestLog(String expression, String result, Timestamp time) {
+        this.expression = expression;
         this.result = result;
         this.time = time;
     }
 
-    public String getExprission() {
-        return exprission;
+    public String getExpression() {
+        return expression;
     }
 
-    public double getResult() {
+    public String getResult() {
         return result;
     }
 
