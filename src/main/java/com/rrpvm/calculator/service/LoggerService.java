@@ -2,7 +2,7 @@ package com.rrpvm.calculator.service;
 
 import com.rrpvm.calculator.model.RequestLog;
 import com.rrpvm.calculator.pojo.DataBaseLogger;
-import com.rrpvm.calculator.pojo.PostgresDataBaseConnector;
+import com.rrpvm.calculator.pojo.connectors.PostgresDataBaseConnector;
 import com.rrpvm.calculator.pojo.di.interfaces.ILogger;
 
 import java.util.concurrent.LinkedBlockingQueue;

@@ -22,6 +22,8 @@ public class MathCalculator {
         } else if (operation.equals("√")) {
             if (value > 0) return Math.sqrt(value);
             throw new ArithmeticException("negative root");
+        } else if (operation.equals("%")) {
+            value /= 100.0;
         }
         return value;
     }
@@ -48,20 +50,22 @@ public class MathCalculator {
             }
             if (!operations.isEmpty()) {
                 double right = 0;
-                char operation = 'c';
+                char operation = '\0';
                 try {
+                    operation = operations.pop();
                     right = Double.parseDouble(numbers.pop());
                     double left = Double.parseDouble(numbers.pop());
-                    operation = operations.pop();
                     numbers.push(Double.toString(doCalculation(left, right, operation)));
                 } catch (EmptyStackException e) {//minus or plus
                     if (operation == '-')
                         numbers.push(Double.toString(-right));
                     else numbers.push(Double.toString(right));
+                } catch (NumberFormatException parseException) {
+                    return 0.0;
                 }
             }
         }
-        if (numbers.isEmpty()) throw new ArithmeticException();
+        if (numbers.isEmpty()) return Double.parseDouble(expression);
         return Double.parseDouble(numbers.peek());
     }
 

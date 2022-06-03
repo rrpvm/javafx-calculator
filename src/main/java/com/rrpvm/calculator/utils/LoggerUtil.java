@@ -20,5 +20,6 @@ public class LoggerUtil {
             loggerService.addLogQueue(log);
             loggerService.notify();
         }
+
     }
 }

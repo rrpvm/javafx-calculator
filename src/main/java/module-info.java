@@ -12,4 +12,5 @@ module com.rrpvm.calculator {
     exports com.rrpvm.calculator.pojo;
     opens com.rrpvm.calculator.controller to javafx.fxml;
     exports com.rrpvm.calculator.pojo.di.interfaces;
+    exports com.rrpvm.calculator.pojo.connectors;
 }

@@ -1,4 +1,4 @@
-package com.rrpvm.calculator.pojo;
+package com.rrpvm.calculator.pojo.connectors;
 
 import com.rrpvm.calculator.pojo.di.interfaces.IDataBaseConnection;
 
