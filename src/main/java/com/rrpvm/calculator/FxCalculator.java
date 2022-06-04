@@ -28,10 +28,9 @@ public class FxCalculator extends Application {
             thread.setDaemon(true);
             thread.start();
         }*/
-        Thread thread = new Thread(LoggerService.getInstance());
-        thread.setPriority(Thread.MIN_PRIORITY);
-        thread.setDaemon(true);
-        thread.start();
+        LoggerService.getInstance().setPriority(Thread.MIN_PRIORITY);
+        LoggerService.getInstance().setDaemon(true);
+        LoggerService.getInstance().start();
     }
 
     @Override
